@@ -7,18 +7,42 @@ const MAPPINGS = `mappings.scss`;
 const HIDE_DIALER_SIDEBAR_CSS = `gv-call-sidebar { display: none }`;
 
 module.exports = class Injector {
-    constructor(app, win) {
+    constructor(app, win, theme) {
         this.win = win;
         this.app = app;
+        if (theme !== 'default') {
+            try {
+                const file = fs.readFileSync(
+                    path.join(
+                        this.app.getAppPath(),
+                        'src',
+                        'themes',
+                        `${theme}.scss`
+                    ),
+                    'utf-8'
+                );
+                const data = joinImports(this.app, file);
+                const result = sass.renderSync({ data });
+                const styles = result.css
+                    .toString()
+                    .replace(/;/g, ' !important;');
+                this.styles = styles;
+            } catch (e) {
+                console.log(e);
+                console.error(`Could not find theme ${theme}`);
+            }
+        }
     }
 
     showHideDialerSidebar(hide) {
         if (!this.win) return;
 
         if (hide) {
-            this.win.webContents.insertCSS(HIDE_DIALER_SIDEBAR_CSS).then(key => {
-                this.sidebarStyleKey = key;
-            });
+            this.win.webContents
+                .insertCSS(HIDE_DIALER_SIDEBAR_CSS)
+                .then((key) => {
+                    this.sidebarStyleKey = key;
+                });
         } else {
             if (this.sidebarStyleKey) {
                 this.win.webContents.removeInsertedCSS(this.sidebarStyleKey);
@@ -26,30 +50,18 @@ module.exports = class Injector {
         }
     }
 
-    injectTheme(theme) {
+    injectTheme() {
         if (this.styleKey) {
             this.win.webContents.removeInsertedCSS(this.styleKey);
             this.styleKey = null;
         }
-
-        if (theme !== 'default') {
-            try {
-                const file = fs.readFileSync(path.join(this.app.getAppPath(), 'src', 'themes', `${theme}.scss`), 'utf-8');
-                const data = joinImports(this.app, file);
-                const result = sass.renderSync({data});
-                const styles = result.css.toString().replace(/;/g, ' !important;');
-                if (this.win) {
-                    this.win.webContents.insertCSS(styles).then(key => {
-                        this.styleKey = key;
-                    });
-                }
-            } catch (e) {
-                console.log(e);
-                console.error(`Could not find theme ${theme}`);
-            }
+        if (this.styles && this.win) {
+            this.win.webContents.insertCSS(this.styles).then((key) => {
+                this.styleKey = key;
+            });
         }
     }
-}
+};
 
 /**
  * The way sass processes use functions just isn't good enough, we need variables that can scope across files and we also
@@ -57,8 +69,14 @@ module.exports = class Injector {
  * simple function to recombine multiple files and then let sass process that
  */
 function joinImports(app, file) {
-    const base = fs.readFileSync(path.join(app.getAppPath(), 'src', 'themes', BASE), 'utf-8');
-    const mappings = fs.readFileSync(path.join(app.getAppPath(), 'src', 'themes', MAPPINGS), 'utf-8');
+    const base = fs.readFileSync(
+        path.join(app.getAppPath(), 'src', 'themes', BASE),
+        'utf-8'
+    );
+    const mappings = fs.readFileSync(
+        path.join(app.getAppPath(), 'src', 'themes', MAPPINGS),
+        'utf-8'
+    );
     let contents = file.replace("@use 'base';", base);
     contents = contents.replace("@use 'mappings';", mappings);
 

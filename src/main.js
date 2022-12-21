@@ -84,7 +84,11 @@ const getCode = (title) => {
         return match[1];
     }
 };
-
+const theme =
+    store.get('prefs.theme') || constants.DEFAULT_SETTING_THEME;
+const hideDialerSidebar =
+    store.get('prefs.hideDialerSidebar') ||
+    constants.DEFAULT_HIDE_DIALER_SIDEBAR;
 // // Setup notification shim to focus window
 // ipcMain.on("notification-clicked", () => {
 //     showMainWindow();
@@ -151,6 +155,8 @@ function createWindow() {
             disableOnBlur: true,
         },
     });
+    cssInjector = new CSSInjector(app, win, theme);
+
     //win.webContents.openDevTools();
 
     // Create the window's menu bar.
@@ -333,14 +339,13 @@ function createWindow() {
     loadGoogleVoice();
     win.webContents.on("did-finish-load", () => {
         // Re-apply the theme last selected by the user.
-        const theme =
-            store.get("prefs.theme") || constants.DEFAULT_SETTING_THEME;
-        const hideDialerSidebar =
-            store.get("prefs.hideDialerSidebar") ||
-            constants.DEFAULT_HIDE_DIALER_SIDEBAR;
-        cssInjector = new CSSInjector(app, win);
-        cssInjector.injectTheme(theme);
+        cssInjector.injectTheme();
         cssInjector.showHideDialerSidebar(hideDialerSidebar);
+        // Now that we've finished creating and initializing the window, show
+        // it (unless the user has enabled the "start minimized" setting).
+        if (!prefs.startMinimized) {
+            win.show();
+        }
     });
 
     // Create our system notification area icon.
@@ -401,11 +406,6 @@ function createWindow() {
 
     win.on("resize", saveWindowSize);
 
-    // Now that we've finished creating and initializing the window, show
-    // it (unless the user has enabled the "start minimized" setting).
-    if (!prefs.startMinimized) {
-        win.show();
-    }
 
     return win;
 }
