@@ -1,17 +1,25 @@
 /* Color palette */
 $background: transparent;
-$foreground: #e3e3e3;
-$primary: #006156;
-$secondary: #e3e3e3a5;
-$selection: #a1a19f5b;
+$foreground: rgb(227, 227, 227);
+$secondary: rgba(227, 227, 227, 0.65);
+$primary: $secondary;
+$selection: rgba(161, 161, 159, 0.35);
+$selection2: rgba(161, 161, 159, 0.2);
+$bg-ui: rgba(59, 59, 59, 0.9);
 $border: transparent;
-$active: white;
-$button: #5d575d67;
-
+$active: rgb(255, 255, 255);
+$radius: 4px;
 @use 'base';
 
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@200;400;500;700&display=swap');
+
+* {
+    font-family: Lexend, sans-serif;
+}
+
 %side-nav {
-    border-right: 1px solid $border;
+    // border-right: 1px solid $border;
+    border-color: $border;
 }
 
 div {
@@ -23,16 +31,25 @@ mat-divider {
 }
 
 ::-webkit-scrollbar {
-    width: 0px;
+    width: 8px;
+    background-color: $background;
 }
 
+::-webkit-scrollbar-thumb {
+    background-color: $selection2;
+    border-radius: $radius;
+}
+::-webkit-scrollbar-track {
+    background-color: $background;
+    border-radius: $radius;
+}
 %side-nav-item-active svg {
     color: $active;
 }
 
 gv-thread-item-detail :first-child {
     opacity: 1;
-    color: #999999;
+    color: $secondary;
 }
 
 .gvHighContrast.gvPageRoot
@@ -40,16 +57,12 @@ gv-thread-item-detail :first-child {
     .thread-info.read[_ngcontent-oqk-c303]
     .latest-item-details[_ngcontent-oqk-c303] {
     opacity: 1;
-    color: #999999;
+    color: $secondary;
 }
 
 %conversation {
     background-color: transparent;
-    border-color: #505050;
-}
-
-div .caption {
-    color: #82898e;
+    border-color: transparent;
 }
 
 .md-button.md-raised[disabled] {
@@ -61,7 +74,7 @@ div .caption {
 }
 
 div.call-as-label {
-    color: #858d92;
+    color: $secondary;
 }
 
 path[d='M19.59 7L12 14.59 6.41 9H11V7H3v8h2v-4.59l7 7 9-9L19.59 7z'] {
@@ -83,89 +96,20 @@ gv-contact-list.YYoZ8c-npMLoc {
     background-color: $background;
 }
 
-.rkljfb-biJjHb.gmat-caption.flex-noshrink {
-    opacity: 1;
-    color: #999999;
-}
-
-md-menu-content {
-    background-color: #181a1b;
-}
-
-p.gmat-body-2 {
-    color: #fff;
-}
-
-.gvHighContrast .mat-icon-button.mat-accent {
-    color: #d5d5d5;
-}
-
 .YYoZ8c-VeKiLd .YYoZ8c-NkdnBe:not([disabled]) {
     background-color: $primary;
 }
 
 /* settings view fixes start here */
 
-.layout-row > md-content {
-    background-color: $background;
-}
-
-.gvPageRoot .W3hWSd span[role='heading'] {
-    color: rgb(227, 227, 227);
-}
-
-div.block-container {
-    background-color: #181a1b66;
-}
-
-h3.sectionTitle {
-    color: rgb(227, 227, 227);
-}
-
-.header {
-    color: rgb(220, 220, 220);
-}
-
-span.phone-number {
-    color: rgb(200, 200, 200);
-}
-
-.internalSubheader {
-    color: rgb(180, 180, 180);
-}
-
-.no-devices.ng-star-inserted {
-    color: rgb(180, 180, 180);
-}
-
-.subheader.ng-star-inserted {
-    color: rgb(180, 180, 180);
+.sectionTitle,
+.gmat-button,
+.gmat-body-2 {
+    color: $active;
 }
 
 .mat-slide-toggle-bar.mat-slide-toggle-bar-no-side-margin {
-    background-color: rgb(95 95 95);
-}
-
-.gvHighContrast
-    .mat-slide-toggle.mat-primary.mat-checked
-    .mat-slide-toggle-bar {
-    background-color: rgba(0, 121, 107, 0.54);
-}
-
-.device-label {
-    color: rgb(220, 220, 220);
-}
-
-div#LABEL_IDS\.ANONYMOUS_HEADER {
-    color: rgb(220, 220, 220);
-}
-
-.deviceLabel {
-    color: rgb(220, 220, 220);
-}
-
-.internalHeader {
-    color: rgb(220, 220, 220);
+    background-color: $selection;
 }
 
 .mat-form-field-appearance-outline[_ngcontent-egk-c24] .mat-form-field-infix {
@@ -177,56 +121,19 @@ div#LABEL_IDS\.ANONYMOUS_HEADER {
     border-top-color: initial;
 }
 
-path[d='M10 17l5-5-5-5v10z'] {
-    color: rgb(213, 213, 213);
-}
-
-.notificationText.ng-star-inserted {
-    color: rgb(200, 200, 200);
-}
-
-.name {
-    color: rgb(220, 220, 220);
-}
-
-button.mat-focus-indicator.mat-stroked-button.mat-button-base.ng-star-inserted {
-    color: #00e1d6;
-}
-
-.active-title {
-    color: #009186;
-}
-
-span.metadata {
-    color: #009186;
-}
-
-.creditSubheader {
-    color: #009186;
-}
-
-mat-icon.icon.mat-icon.notranslate.mat-icon-no-color {
-    background-color: transparent;
-}
-
-.icon {
-    background-color: #063331;
-}
-
-.mat-list-item-content {
-    color: rgb(220, 220, 220);
-}
-
 button.mat-focus-indicator.mat-stroked-button.mat-button-base {
     border-color: $border;
 }
 
-a.mat-list-item.gmat-nav-list-item.gmat-subtitle-2.gmat-list-item-active {
-    background-color: #1a1d1e;
-}
-
-div#mat-select-value-1 {
-    color: rgb(220, 220, 220);
+.mat-list-item.gmat-nav-list-item.gmat-subtitle-2.gmat-list-item-active,
+div[ng-class="ctrl.dialpadVisible ? '' : ctrl.CSS.DIALPAD_COLLAPSED"],
+.block-container,
+.mat-dialog-container,
+md-dialog,
+mat-dialog-container {
+    background-color: $bg-ui;
+    color: $foreground;
+    backdrop-filter: blur(10px);
 }
 
 .mat-form-field-infix {
@@ -234,78 +141,58 @@ div#mat-select-value-1 {
     border-top: initial;
 }
 
-div[ng-class="ctrl.dialpadVisible ? '' : ctrl.CSS.DIALPAD_COLLAPSED"] {
-    background-color: #131516;
-}
-
 /* Fixes for light-colored dial pad */
-
-.dialpad-container {
-    background-color: $background;
-}
-
-.input-row {
-    background-color: $background;
-    color: $foreground;
-}
-
-.mat-ripple.button {
-    background-color: transparent;
-    color: $foreground;
-}
 
 .call-button {
     background-color: $secondary;
 }
+.gmat-subtitle-2.gvThreadItem-unread {
+    background-color: rgba(161, 161, 159, 0.534);
+    &gv-thread-item div.layout-row gv-annotation[gv-test-id='item-contact'] {
+        color: $active;
+    }
+    &gv-thread-item-detail :first-child {
+        color: $foreground;
+    }
+}
 
-.call-button.mat-button-disabled {
+.call-button.mat-button-disabled,
+.gmat-button,
+.dtmf-input {
     background-color: $selection;
 }
 
-.active-call {
-    background-color: $background;
-}
-
-.active-call-wrapper {
-    background-color: $background;
-}
-
-.remote-display-name {
-    color: $foreground;
-}
 button.call-end-button.mat-button {
     background-color: #ff6188;
 }
 
-.gmat-button {
-    background-color: $button;
-    color: $active;
-}
-
 .dtmf-input {
     transition: all 0.2s ease-in-out;
-    background-color: $selection;
-    color: $foreground;
 }
 
 /* Make unread texts a bit more obvious */
 
 .gmat-subtitle-2.gvThreadItem-unread {
     font-weight: bold;
-    background-color: $secondary;
 }
 
 .mat-drawer-container,
 .mat-drawer,
 body,
-.gvCallSidebar-root,
-body.md-default-theme,
-html.md-default-theme,
 html,
+.gvCallSidebar-root,
 .gvRecipientPicker-contactList,
-.mat-dialog-container,
-.root {
-    background-color: transparent;
+.root,
+.active-call-wrapper,
+.active-call,
+.dialpad-container,
+mat-icon.icon.mat-icon.notranslate.mat-icon-no-color,
+.mat-ripple.button,
+.input-row,
+md-sidenav,
+md-content,
+.full-panel {
+    background-color: $background;
 }
 
 .mat-menu-panel,
@@ -317,24 +204,76 @@ input,
 select,
 textarea,
 .gb_5c.gb_6c,
-.icon.icon,.remote-display-name {
+.icon.icon,
+.remote-display-name,
+.header,
+.device-label,
+div#LABEL_IDS\.ANONYMOUS_HEADER,
+.deviceLabel,
+.internalHeader,
+.name,
+.mat-list-item-content,
+div#mat-select-value-1,
+.mat-ripple.button,
+.input-row,
+.bubble,
+.dtmf-input,
+.gvHighContrast .mat-icon-button.mat-accent,
+.gvPageRoot .W3hWSd span[role='heading'],
+.mat-drawer-container,
+.mat-drawer,
+.grey-900,
+.gvDeleteThreadDialog-sectionContent,
+md-content,
+.mat-select-value {
     color: $foreground;
+}
+
+.gray-700,
+.gvPageRoot md-content,
+.gvPageRoot .grey-700 {
+    color: $secondary;
 }
 
 .secondary-text,
 .latest-item-details,
-.status {
+.status,
+span.phone-number,
+.internalSubheader,
+.subheader.ng-star-inserted,
+.notificationText.ng-star-inserted,
+.caption,
+.rkljfb-biJjHb.gmat-caption.flex-noshrink,
+path[d='M10 17l5-5-5-5v10z'],
+.subheader {
     color: $secondary;
 }
 
-::placeholder, .phone-number {
+::placeholder,
+.phone-number,
+.no-devices.ng-star-inserted {
     color: $selection;
 }
 
 .bubble {
-    color: $foreground;
-    background-color: $button;
+    background-color: $selection;
 }
-.mat-menu-panel {
-    background-color: $button;
+
+::selection {
+    background-color: $selection;
+    color: $active;
+}
+
+.mat-menu-panel,
+md-menu-content {
+    background-color: $bg-ui;
+    backdrop-filter: blur(10px);
+}
+
+body > iframe:nth-child(15) {
+    display: none;
+}
+
+gv-ogb-help-button, [aria-label="Google apps"] {
+    display: none;
 }

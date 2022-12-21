@@ -166,12 +166,13 @@ function createWindow() {
             submenu: [
                 {
                     label: "&Reload",
+                    accelerator: isMac() ? "Command+R" : "Ctrl+R",
                     click: () => {
                         loadGoogleVoice();
                     },
                 }, // Reload Google Voice within our main window
                 {
-                    label: "Go to &website",
+                    label: "Open in &Browser",
                     click: () => {
                         loadGoogleVoice(true);
                     },
