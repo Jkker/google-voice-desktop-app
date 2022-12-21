@@ -16,14 +16,17 @@ module.exports.notificationShim = function(appPath) {
         // If the specified options don't include an icon for the notification, set the icon to our application icon.
         if (!options)      { options = {}; }
         if (!options.icon) { options.icon = path.join(appPath, 'images', constants.APPLICATION_ICON_MEDIUM); }
-                
-        // Create a normal Notification instance using the specified parameters.
-        const oldNotification = new OldNotification(title, options);
-                
-        // Automatically add a click handler, which notifies the main process when a click occurs.
-        oldNotification.addEventListener('click', () => {
-            ipcRenderer.send('notification-clicked', {});
+        ipcRenderer.send("notification-created", {
+            title,
+            ...options,
         });
+        // // Create a normal Notification instance using the specified parameters.
+        // const oldNotification = new OldNotification(title, options);
+
+        // // Automatically add a click handler, which notifies the main process when a click occurs.
+        // oldNotification.addEventListener('click', () => {
+        //     ipcRenderer.send('notification-clicked', {});
+        // });
 
         return oldNotification;
     };
